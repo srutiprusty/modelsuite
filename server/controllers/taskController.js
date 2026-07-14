@@ -1,4 +1,5 @@
 ﻿const Task = require("../models/Task");
+const Submission = require("../models/Submission");
 
 // @desc  Get all tasks
 // @route GET /api/tasks
@@ -90,7 +91,11 @@ const deleteTask = async (req, res) => {
     const task = await Task.findById(req.params.id);
     if (!task) return res.status(404).json({ message: "Task not found" });
     // — orphaned Submission documents remain in DB after task deletion
-    await Task.findByIdAndDelete(req.params.id);
+    await Submission.deleteMany({
+      taskId: task._id,
+    });
+
+    await task.deleteOne();
 
     res.json({ message: "Task deleted" });
   } catch (error) {
