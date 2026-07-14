@@ -41,7 +41,7 @@ const createTask = async (req, res) => {
   const { title, description, status, assignedTo, dueDate } = req.body;
   if (!title?.trim() || !description?.trim()) {
     return res.status(400).json({
-      message: "Title and description are required.",
+      message: "Title and Description are required.",
     });
   }
   const trimmedTitle = title.trim();
